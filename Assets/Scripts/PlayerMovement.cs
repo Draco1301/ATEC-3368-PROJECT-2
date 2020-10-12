@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement instance;
+
     [SerializeField] CharacterController cc;
     [SerializeField] float speed;
     [SerializeField] float sprintSpeed;
@@ -17,6 +19,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float gravity = -9.81f;
     Vector3 velocity;
 
+    private void Awake() {
+        if (instance == null) {
+            instance = this;
+        } else {
+            Destroy(this);
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -29,10 +39,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Moving
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        float x = Input.GetAxisRaw("Horizontal");
+        float z = Input.GetAxisRaw("Vertical");
 
         Vector3 move = transform.right * x + transform.forward * z;
+        move.Normalize();
 
         if (Input.GetButton("Sprint")) {
             cc.Move(move * sprintSpeed * Time.deltaTime);
