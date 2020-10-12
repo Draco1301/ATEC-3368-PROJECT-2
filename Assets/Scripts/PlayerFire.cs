@@ -13,6 +13,8 @@ public class PlayerFire : MonoBehaviour
 
     //Time Stop Bullet
     [SerializeField] TimeBullet tBullet;
+    [SerializeField] int tAmmoMax;
+    int tAmmo;
 
     //effects
     [SerializeField] ParticleSystem muzzleFlash;
@@ -23,15 +25,23 @@ public class PlayerFire : MonoBehaviour
     void Update()
     {
         if (Input.GetButtonDown("Shoot") && !LevelController.instance.isPaused) {
-            muzzleFlash.Play();
-            gunSound.Play();
-
-            if (!PlayerTimeStop.TimeStop) {
+            
+            if (!PlayerTimeStop.TimeStoped) {
                 Shoot();
-            } else {
+                muzzleFlash.Play();
+                gunSound.Play();
+            } else if (tAmmo > 0) {
+                tAmmo--;
                 TimeStopShoot();
+                muzzleFlash.Play();
+                gunSound.Play();
             }
         }
+
+        if (!PlayerTimeStop.TimeStoped) {
+            tAmmo = tAmmoMax;
+        }
+
     }
 
     private void TimeStopShoot() {
@@ -74,7 +84,7 @@ public class PlayerFire : MonoBehaviour
 
 
         } else {
-            pos[1] = transform.position + transform.forward * fireDistance;
+            pos[1] = muzzleFlash.transform.position + muzzleFlash.transform.forward * fireDistance;
         }
 
         TrailManager.instantce.createTrail(pos);

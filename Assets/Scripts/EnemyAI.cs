@@ -12,7 +12,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] float awareRadius;
     [SerializeField] float limitRadius;
     [SerializeField] float moveSpeed;
-    [SerializeField] GameObject bullet;
+    IEnemyAttack EnemyAttack;
     [SerializeField] float timeBetweenAttacks;
     private float timeSinceAttack;
     
@@ -29,6 +29,7 @@ public class EnemyAI : MonoBehaviour
         pm = PlayerMovement.instance;
         cc = GetComponent<CharacterController>();
         health = GetComponent<EnemyHealth>();
+        EnemyAttack = GetComponent<IEnemyAttack>();
     }
 
 
@@ -63,7 +64,7 @@ public class EnemyAI : MonoBehaviour
 
         if (timeSinceAttack > timeBetweenAttacks) {
             timeSinceAttack = 0;
-            Instantiate(bullet,transform.position + transform.rotation * Vector3.forward * 2, transform.rotation);
+            EnemyAttack.Attack();
         }
     }
 

@@ -526,6 +526,7 @@ GameObject:
   - component: {fileID: 87777782}
   - component: {fileID: 87777777}
   - component: {fileID: 87777778}
+  - component: {fileID: 87777779}
   m_Layer: 9
   m_Name: Enemy Proto
   m_TagString: Untagged
@@ -572,6 +573,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2186dff536eb7f54faed752c7456d69b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &87777779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87777775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfe68670e96611846811afb846229c9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 9006874284360811800, guid: e24441b1946e10c449b74a1816a1698f, type: 3}
 --- !u!4 &87777780
 Transform:
   m_ObjectHideFlags: 0
@@ -603,7 +617,6 @@ MonoBehaviour:
   awareRadius: 30
   limitRadius: 3
   moveSpeed: 5
-  bullet: {fileID: 9006874284360811800, guid: e24441b1946e10c449b74a1816a1698f, type: 3}
   timeBetweenAttacks: 2
   groundCheck: {fileID: 73688466}
   groundDistance: 0.4
@@ -4787,12 +4800,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraController: {fileID: 963194227}
-  rayOrigin: {fileID: 180429810}
+  rayOrigin: {fileID: 963194228}
   fireDistance: 100
   mask:
     serializedVersion: 2
     m_Bits: 768
   tBullet: {fileID: -308600291464469972, guid: 6a324cc3b9939dd4eb69ad0a6dd80d7d, type: 3}
+  tAmmoMax: 6
   muzzleFlash: {fileID: 1296930394}
   smoke: {fileID: 1436574186}
   gunSound: {fileID: 1843689073}
@@ -4841,6 +4855,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9538b4a25353c52418f28aec84894e5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeLimit: 10
+  rechargeTime: 15
 --- !u!1 &1001647146
 GameObject:
   m_ObjectHideFlags: 0

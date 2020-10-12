@@ -4,30 +4,37 @@ using UnityEngine;
 
 public class TimeBullet : MonoBehaviour
 {
+    //Ray cast
     Vector3 rayDirection;
     Vector3 rayOrigin;
     float fireDistance;
     LayerMask mask;
     bool once = false;
 
+    //effects
+    [SerializeField] GameObject art;
+    Vector3 startPos;
+    Vector3 endPos;
+    float localTime = 0;
+
     // Start is called before the first frame update
     void Start()
     {
-        if (!PlayerTimeStop.TimeStop) {
+        if (!PlayerTimeStop.TimeStoped) {
             Destroy(this.gameObject);
         }
-
+        startPos = art.transform.position;
+        endPos = art.transform.position + (art.transform.rotation * (art.transform.forward * -2));
     }
 
     private void Update() {
-        if (!PlayerTimeStop.TimeStop && once) {
+        if (!PlayerTimeStop.TimeStoped && once) {
             once = false;
             RaycastHit hitInfo;
             Vector3[] pos = new Vector3[2];
             pos[0] = transform.position;
 
             if (Physics.Raycast(rayOrigin, rayDirection, out hitInfo, fireDistance, mask)) {
-                Debug.Log("hit: " + hitInfo.transform.gameObject.name);
 
                 EnemyHealth eh = hitInfo.transform.GetComponent<EnemyHealth>();
                 if (eh != null) {
@@ -51,6 +58,11 @@ public class TimeBullet : MonoBehaviour
             
             Destroy(transform.GetChild(0).gameObject);
             Destroy(this.gameObject,3);
+        }
+
+        if (PlayerTimeStop.TimeStoped) {
+            art.transform.position = new Vector3(Mathf.SmoothStep(startPos.x,endPos.x,localTime), Mathf.SmoothStep(startPos.y, endPos.y, localTime), Mathf.SmoothStep(startPos.z, endPos.z, localTime));
+            localTime += Time.deltaTime * 10;
         }
     }
 

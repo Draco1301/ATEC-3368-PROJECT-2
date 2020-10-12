@@ -21,6 +21,11 @@ public class EnemyBullet : MonoBehaviour
             rb.AddForceAtPosition(dir * 20, collision.GetContact(0).point, ForceMode.Impulse);
 
         }
+
+        PlayerHealth ph = collision.gameObject.GetComponent<PlayerHealth>();
+        if (ph != null) {
+            ph.changeHealth(-1);
+        }
         Destroy(this.gameObject);
     }
 
