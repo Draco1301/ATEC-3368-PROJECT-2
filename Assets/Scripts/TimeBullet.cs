@@ -24,7 +24,7 @@ public class TimeBullet : MonoBehaviour
             Destroy(this.gameObject);
         }
         startPos = art.transform.position;
-        endPos = art.transform.position + (art.transform.rotation * (art.transform.forward * -2));
+        endPos = art.transform.position + art.transform.forward * 0.5f;
     }
 
     private void Update() {
@@ -45,6 +45,16 @@ public class TimeBullet : MonoBehaviour
                 if (rb != null) {
                     Vector3 dir = hitInfo.transform.position - hitInfo.point;
                     rb.AddForceAtPosition(dir * 20, hitInfo.point, ForceMode.Impulse);
+                }
+
+                EnemyBullet eb = hitInfo.transform.GetComponent<EnemyBullet>();
+                if (eb != null) {
+                    Destroy(eb.gameObject);
+                }
+
+                Grenade g = hitInfo.transform.GetComponent<Grenade>();
+                if (g != null) {
+                    g.Explode();
                 }
 
 

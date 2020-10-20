@@ -13,35 +13,58 @@ public class PlayerFire : MonoBehaviour
 
     //Time Stop Bullet
     [SerializeField] TimeBullet tBullet;
-    [SerializeField] int tAmmoMax;
-    int tAmmo;
+    [SerializeField] int ammoMax;
+    int ammo;
 
     //effects
     [SerializeField] ParticleSystem muzzleFlash;
     [SerializeField] ParticleSystem smoke;
     [SerializeField] AudioSource gunSound;
 
+    //timer
+    [SerializeField] float fireRate;
+    float fireTimer;
+
+    private bool isReloading;
+    [SerializeField] float reloadTime;
+    private float reloadProg;
+    [SerializeField] GameObject gun;
+
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Shoot") && !LevelController.instance.isPaused) {
-            
-            if (!PlayerTimeStop.TimeStoped) {
-                Shoot();
+        if (Input.GetButtonDown("Shoot") && fireTimer <= 0 && !LevelController.instance.isPaused && !isReloading) {
+
+            if (ammo > 0) {
+                if (!PlayerTimeStop.TimeStoped) {
+                    Shoot();
+                } else {
+                    TimeStopShoot();
+                }
+                ammo--;
                 muzzleFlash.Play();
                 gunSound.Play();
-            } else if (tAmmo > 0) {
-                tAmmo--;
-                TimeStopShoot();
-                muzzleFlash.Play();
-                gunSound.Play();
+            } else {
+                isReloading = true;
+                reloadProg = reloadTime;
+            }
+            fireTimer = fireRate;
+        }
+
+        fireTimer -= Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.R) && !isReloading) {
+            isReloading = true;
+            reloadProg = reloadTime;
+        }
+        if (isReloading) {
+            reload((reloadTime - reloadProg) / reloadTime);
+            reloadProg -= Time.deltaTime;
+            if (reloadProg <= 0) {
+                isReloading = false;
+                ammo = ammoMax;
             }
         }
-
-        if (!PlayerTimeStop.TimeStoped) {
-            tAmmo = tAmmoMax;
-        }
-
     }
 
     private void TimeStopShoot() {
@@ -81,6 +104,10 @@ public class PlayerFire : MonoBehaviour
                 Destroy(eb.gameObject);
             }
 
+            Grenade g = hitInfo.transform.GetComponent<Grenade>();
+            if (g != null) {
+                g.Explode();
+            }
 
 
         } else {
@@ -89,5 +116,10 @@ public class PlayerFire : MonoBehaviour
 
         TrailManager.instantce.createTrail(pos);
 
+    }
+
+    private void reload(float t) {
+        float temp = Mathf.SmoothStep(0,360,t);
+        gun.transform.localRotation = Quaternion.Euler(temp,0,0);
     }
 }

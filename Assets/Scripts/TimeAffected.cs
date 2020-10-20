@@ -6,6 +6,7 @@ public class TimeAffected : MonoBehaviour
 {
     Rigidbody rb;
     EnemyAI eAI;
+    ParticleSystem ps;
     Vector3 saveVelocity;
     Vector3 saveAngularVelocity;
 
@@ -13,6 +14,7 @@ public class TimeAffected : MonoBehaviour
     public void stop() {
         rb = GetComponent<Rigidbody>();
         eAI = GetComponent<EnemyAI>();
+        ps = GetComponent<ParticleSystem>();
 
         if (rb != null) {
             saveVelocity = rb.velocity;
@@ -25,11 +27,16 @@ public class TimeAffected : MonoBehaviour
         if (eAI != null) {
             eAI.enabled = false;
         }
+
+        if (ps != null) {
+            ps.Pause();
+        }
     }
 
     public void resume() {
         rb = GetComponent<Rigidbody>();
         eAI = GetComponent<EnemyAI>();
+        ps = GetComponent<ParticleSystem>();
 
         if (rb != null) {
             rb.isKinematic = false;
@@ -38,6 +45,9 @@ public class TimeAffected : MonoBehaviour
         }
         if (eAI != null) {
             eAI.enabled = true;
+        }
+        if (ps != null) {
+            ps.Play();
         }
     }
 
