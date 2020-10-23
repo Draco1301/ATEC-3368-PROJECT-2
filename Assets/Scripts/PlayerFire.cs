@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerFire : MonoBehaviour
 {
@@ -25,10 +26,11 @@ public class PlayerFire : MonoBehaviour
     [SerializeField] float fireRate;
     float fireTimer;
 
-    private bool isReloading;
     [SerializeField] float reloadTime;
-    private float reloadProg;
     [SerializeField] GameObject gun;
+    [SerializeField] Text ammoText;
+    private bool isReloading;
+    private float reloadProg;
 
     // Update is called once per frame
     void Update()
@@ -42,6 +44,7 @@ public class PlayerFire : MonoBehaviour
                     TimeStopShoot();
                 }
                 ammo--;
+                ammoText.text = ammo+"/"+ ammoMax;
                 muzzleFlash.Play();
                 gunSound.Play();
             } else {
@@ -63,6 +66,7 @@ public class PlayerFire : MonoBehaviour
             if (reloadProg <= 0) {
                 isReloading = false;
                 ammo = ammoMax;
+                ammoText.text = ammo + "/" + ammoMax;
             }
         }
     }
@@ -107,6 +111,11 @@ public class PlayerFire : MonoBehaviour
             Grenade g = hitInfo.transform.GetComponent<Grenade>();
             if (g != null) {
                 g.Explode();
+            }
+
+            Target t = hitInfo.transform.GetComponent<Target>();
+            if (t != null) {
+                t.ShotAt();
             }
 
 

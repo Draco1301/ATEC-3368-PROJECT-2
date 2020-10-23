@@ -36,7 +36,7 @@ public class Grenade : MonoBehaviour
 
             EnemyHealth eh = c.GetComponent<EnemyHealth>();
             if (eh != null) {
-                eh.takeDamage(100);
+                eh.takeDamage(10);
             }
             
             Rigidbody rb = c.GetComponent<Rigidbody>();

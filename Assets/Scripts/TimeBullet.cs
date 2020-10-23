@@ -57,6 +57,10 @@ public class TimeBullet : MonoBehaviour
                     g.Explode();
                 }
 
+                Target t = hitInfo.transform.GetComponent<Target>();
+                if (t != null) {
+                    t.ShotAt();
+                }
 
                 pos[1] = hitInfo.point;
             } else {

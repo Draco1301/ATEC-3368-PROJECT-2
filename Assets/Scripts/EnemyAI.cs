@@ -24,6 +24,7 @@ public class EnemyAI : MonoBehaviour
     private bool grounded;
     [SerializeField] float gravity = -9.81f;
     Vector3 velocity;
+    [SerializeField] Transform gunPivot;
     
     private void Start() {
         pm = PlayerMovement.instance;
@@ -66,6 +67,8 @@ public class EnemyAI : MonoBehaviour
             timeSinceAttack = 0;
             EnemyAttack.Attack();
         }
+
+        gunPivot.LookAt(PlayerMovement.instance.transform);
     }
 
     private void OnDrawGizmosSelected() {

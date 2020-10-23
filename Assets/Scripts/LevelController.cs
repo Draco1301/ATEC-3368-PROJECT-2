@@ -83,7 +83,7 @@ public class LevelController : MonoBehaviour
             PlayerPrefs.SetInt("HighScore", _currentScore);
         }
 
-        SceneManager.LoadScene("Level01");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void GameOver() {
