@@ -7,10 +7,13 @@ public class B_Wall : MonoBehaviour, IBossAttack
     [SerializeField] EnemyBullet bullet;
     private bool isAttack = false;
     private bool isFin = false;
+    Coroutine attack;
+
     public void Attack() {
         isAttack = true;
-        StartCoroutine(SpawnBullets());
-        
+        transform.position = new Vector3(25f, 11.75f, -25f);
+        transform.GetComponent<BossAI>().moveSpeed = 0;
+        attack = StartCoroutine(SpawnBullets());
     }
 
     private IEnumerator SpawnBullets() {
@@ -20,11 +23,11 @@ public class B_Wall : MonoBehaviour, IBossAttack
             for (int n = 0; n < 23; n++) {
                 eb[n, i] = Instantiate(bullet, startPos + new Vector3(n *2,i *2, 0), Quaternion.Euler(0, 180, 0));
                 eb[n, i].Speed = 0;
-                while (PlayerTimeStop.TimeStoped) {
+                while (TimeManager.TimeStoped) {
                     yield return null;
                 }
             }
-            while (PlayerTimeStop.TimeStoped) {
+            while (TimeManager.TimeStoped) {
                 yield return null;
             }
             yield return new WaitForSeconds(1);
@@ -33,11 +36,11 @@ public class B_Wall : MonoBehaviour, IBossAttack
         for (int i = 0; i < 6; i++) {
             for (int n = 0; n < 23; n++) {
                 eb[n, i].Speed = 5;
-                while (PlayerTimeStop.TimeStoped) {
+                while (TimeManager.TimeStoped) {
                     yield return null;
                 }
             }
-            while (PlayerTimeStop.TimeStoped) {
+            while (TimeManager.TimeStoped) {
                 yield return null;
             }
             yield return new WaitForSeconds(1);
@@ -61,5 +64,9 @@ public class B_Wall : MonoBehaviour, IBossAttack
 
     public void setBullet(EnemyBullet eb) {
         bullet = eb;
+    }
+
+    public void stopAttack() {
+        StopCoroutine(attack);
     }
 }

@@ -9,7 +9,7 @@ public class Grenade : MonoBehaviour
     [SerializeField] float radius = 10;
 
     private void Start() {
-        if (PlayerTimeStop.TimeStoped) {
+        if (TimeManager.TimeStoped) {
             GetComponent<TimeAffected>().Invoke("stop",0.2f);
         }
     }
@@ -17,7 +17,7 @@ public class Grenade : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!PlayerTimeStop.TimeStoped) {
+        if (!TimeManager.TimeStoped) {
             timer -= Time.deltaTime;
         }
         if (timer<0) {

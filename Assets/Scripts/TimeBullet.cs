@@ -20,7 +20,7 @@ public class TimeBullet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (!PlayerTimeStop.TimeStoped) {
+        if (!TimeManager.TimeStoped) {
             Destroy(this.gameObject);
         }
         startPos = art.transform.position;
@@ -28,7 +28,7 @@ public class TimeBullet : MonoBehaviour
     }
 
     private void Update() {
-        if (!PlayerTimeStop.TimeStoped && once) {
+        if (!TimeManager.TimeStoped && once) {
             once = false;
             RaycastHit hitInfo;
             Vector3[] pos = new Vector3[2];
@@ -37,7 +37,20 @@ public class TimeBullet : MonoBehaviour
             if (Physics.Raycast(rayOrigin, rayDirection, out hitInfo, fireDistance, mask)) {
 
                 EnemyHealth eh = hitInfo.transform.GetComponent<EnemyHealth>();
-                if (eh != null) {
+                BossAI BAI = hitInfo.transform.GetComponent<BossAI>();
+                if (BAI != null && eh != null) {
+                    float dist = (Vector3.Distance(transform.position, BAI.transform.position));
+                    if (dist < 5f) {
+                        eh.takeDamage(10);
+                    } else if (dist < 12.5f) {
+                        eh.takeDamage(5);
+                    } else if (dist < 20f) {
+                        eh.takeDamage(3);
+                    } else {
+                        eh.takeDamage(1);
+                    }
+
+                } else if (eh != null) {
                     eh.takeDamage(1);
                 }
 
@@ -74,7 +87,7 @@ public class TimeBullet : MonoBehaviour
             Destroy(this.gameObject,3);
         }
 
-        if (PlayerTimeStop.TimeStoped) {
+        if (TimeManager.TimeStoped) {
             art.transform.position = new Vector3(Mathf.SmoothStep(startPos.x,endPos.x,localTime), Mathf.SmoothStep(startPos.y, endPos.y, localTime), Mathf.SmoothStep(startPos.z, endPos.z, localTime));
             localTime += Time.deltaTime * 10;
         }

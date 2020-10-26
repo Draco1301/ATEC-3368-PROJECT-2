@@ -10,7 +10,7 @@ public class LevelController : MonoBehaviour
 {
     [SerializeField] Text _currentScoreTextView;
     [SerializeField] GameObject PauseMenu;
-    int _currentScore;
+    
 
     [SerializeField] GameObject GameOverPanel;
     bool gameOver;
@@ -37,15 +37,12 @@ public class LevelController : MonoBehaviour
             TogglePause();
         }
 
-        if (Input.GetKeyDown(KeyCode.Q)) {
-            IncreaseScore(5);
-        }
-
         if (isPaused) {
             Time.timeScale = 0;
         } else { 
             Time.timeScale = 1;
         }
+
     }
 
     public void TogglePause() {
@@ -63,26 +60,12 @@ public class LevelController : MonoBehaviour
         }
         Cursor.visible = PauseMenu.activeSelf;
     }
-    private void IncreaseScore(int v) {
-        _currentScore += v;
-        _currentScoreTextView.text = "Score: " + _currentScore.ToString();
-    }
 
     public void ExitLevel() {
-        int highScore = PlayerPrefs.GetInt("HighScore");
-        if (_currentScore > highScore) {
-            PlayerPrefs.SetInt("HighScore", _currentScore);
-        }
-
         SceneManager.LoadScene("MainMenu");
     }
 
     public void RestartLevel() {
-        int highScore = PlayerPrefs.GetInt("HighScore");
-        if (_currentScore > highScore) {
-            PlayerPrefs.SetInt("HighScore", _currentScore);
-        }
-
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

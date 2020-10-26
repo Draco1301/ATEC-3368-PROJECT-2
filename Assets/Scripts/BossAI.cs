@@ -6,14 +6,16 @@ public class BossAI : MonoBehaviour
 {
     PlayerMovement pm;
     EnemyHealth health;
-    [SerializeField] EnemyBullet eb;
+    [SerializeField] EnemyBullet enemyBullet;
+    [SerializeField] EnemyAI enemyAI;
 
 
     //attack
-    [SerializeField] float moveSpeed;
+    [SerializeField] public float moveSpeed;
     IBossAttack BossAttack;
     [SerializeField] float timeBetweenAttacks;
     private float timeSinceAttack;
+    private int attackNum;
 
     //Move
     CharacterController cc;
@@ -35,15 +37,41 @@ public class BossAI : MonoBehaviour
 
     void Update() {
 
-        Move();
+        if (health.getHealth() <= 0) {
+            return;
+        }
+
+        if (!TimeManager.TimeStoped) {
+            Move();
+        }
 
         if (BossAttack != null && !BossAttack.isAttacking() && !BossAttack.isFinished()) {
             BossAttack.Attack();
         }
         if (BossAttack != null && BossAttack.isFinished()) {
             BossAttack.destoryThis();
-            BossAttack = gameObject.AddComponent<B_NineShot>();
-            BossAttack.setBullet(eb);
+            attackNum = BossAttackRandomizer(attackNum);
+            switch (attackNum) {
+                case 1:
+                    BossAttack = gameObject.AddComponent<B_NineShot>();
+                    break;
+                case 2:
+                    BossAttack = gameObject.AddComponent<B_SpinWall>();
+                    break;
+                case 3:
+                    BossAttack = gameObject.AddComponent<B_Spiral>();
+                    break;
+                case 4:
+                    BossAttack = gameObject.AddComponent<B_TimeStop>();
+                    break;
+                case 5:
+                    BossAttack = gameObject.AddComponent<B_Wall>();
+                    break;
+                default:
+                    BossAttack = gameObject.AddComponent<B_NineShot>();
+                    break;
+            }
+            BossAttack.setBullet(enemyBullet);
         }
 
         ApplyGravity();
@@ -70,5 +98,20 @@ public class BossAI : MonoBehaviour
 
     private void OnDrawGizmosSelected() {
         Gizmos.color = Color.red;
+    }
+
+    private int BossAttackRandomizer(int x) {
+        int r;
+        do { 
+            r = Random.Range(1, 5);
+        } while (r == x);
+
+        return r;
+    }
+
+    private void OnDestroy() {
+        if (BossAttack != null && BossAttack.isAttacking() && !BossAttack.isFinished()) {
+            BossAttack.stopAttack();
+        }
     }
 }

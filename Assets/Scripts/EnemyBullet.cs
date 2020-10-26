@@ -6,7 +6,7 @@ public class EnemyBullet : MonoBehaviour
 {
     [SerializeField] float speed;
     Rigidbody rb;
-
+    public bool killOnWall = true;
     public float Speed { get => speed; set => speed = value; }
 
     private void Start() {
@@ -28,7 +28,9 @@ public class EnemyBullet : MonoBehaviour
         if (ph != null) {
             ph.changeHealth(-1);
         }
-        Destroy(this.gameObject);
-    }
 
+        if (killOnWall) {
+            Destroy(this.gameObject);
+        }
+    }
 }

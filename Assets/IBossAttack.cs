@@ -9,5 +9,6 @@ public interface IBossAttack
     bool isFinished();
     void destoryThis();
     void setBullet(EnemyBullet eb);
+    void stopAttack();
 
 }

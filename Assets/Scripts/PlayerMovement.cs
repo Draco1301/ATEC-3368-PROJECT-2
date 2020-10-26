@@ -30,33 +30,34 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!TimeManager.getPITS()) {
+            //Ground Checking
+            grounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        //Ground Checking
-        grounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+            if (grounded && velocity.y < 0) {
+                velocity.y = -2;
+            }
 
-        if (grounded && velocity.y < 0) {
-            velocity.y = -2;
+            //Moving
+            float x = Input.GetAxisRaw("Horizontal");
+            float z = Input.GetAxisRaw("Vertical");
+
+            Vector3 move = transform.right * x + transform.forward * z;
+            move.Normalize();
+
+            if (Input.GetButton("Sprint")) {
+                cc.Move(move * sprintSpeed * Time.deltaTime);
+            } else {
+                cc.Move(move * speed * Time.deltaTime);
+            }
+            //Falling and jumping
+            velocity.y += gravity * Time.deltaTime;
+            if (Input.GetButtonDown("Jump") && grounded) {
+                velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
+            }
+
+            cc.Move(velocity * Time.deltaTime);
         }
-
-        //Moving
-        float x = Input.GetAxisRaw("Horizontal");
-        float z = Input.GetAxisRaw("Vertical");
-
-        Vector3 move = transform.right * x + transform.forward * z;
-        move.Normalize();
-
-        if (Input.GetButton("Sprint")) {
-            cc.Move(move * sprintSpeed * Time.deltaTime);
-        } else { 
-            cc.Move(move * speed * Time.deltaTime);
-        }
-        //Falling and jumping
-        velocity.y += gravity * Time.deltaTime;
-        if (Input.GetButtonDown("Jump") && grounded) {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);        
-        }
-
-        cc.Move(velocity * Time.deltaTime);
     }
 
     private void OnDrawGizmos() {

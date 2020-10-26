@@ -35,38 +35,40 @@ public class PlayerFire : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Shoot") && fireTimer <= 0 && !LevelController.instance.isPaused && !isReloading) {
+        if (!TimeManager.getPITS()) {
+            if (Input.GetButtonDown("Shoot") && fireTimer <= 0 && !LevelController.instance.isPaused && !isReloading) {
 
-            if (ammo > 0) {
-                if (!PlayerTimeStop.TimeStoped) {
-                    Shoot();
+                if (ammo > 0) {
+                    if (!TimeManager.TimeStoped) {
+                        Shoot();
+                    } else {
+                        TimeStopShoot();
+                    }
+                    ammo--;
+                    ammoText.text = ammo + "/" + ammoMax;
+                    muzzleFlash.Play();
+                    gunSound.Play();
                 } else {
-                    TimeStopShoot();
+                    isReloading = true;
+                    reloadProg = reloadTime;
                 }
-                ammo--;
-                ammoText.text = ammo+"/"+ ammoMax;
-                muzzleFlash.Play();
-                gunSound.Play();
-            } else {
+                fireTimer = fireRate;
+            }
+
+            fireTimer -= Time.deltaTime;
+
+            if (Input.GetKeyDown(KeyCode.R) && !isReloading) {
                 isReloading = true;
                 reloadProg = reloadTime;
             }
-            fireTimer = fireRate;
-        }
-
-        fireTimer -= Time.deltaTime;
-
-        if (Input.GetKeyDown(KeyCode.R) && !isReloading) {
-            isReloading = true;
-            reloadProg = reloadTime;
-        }
-        if (isReloading) {
-            reload((reloadTime - reloadProg) / reloadTime);
-            reloadProg -= Time.deltaTime;
-            if (reloadProg <= 0) {
-                isReloading = false;
-                ammo = ammoMax;
-                ammoText.text = ammo + "/" + ammoMax;
+            if (isReloading) {
+                reload((reloadTime - reloadProg) / reloadTime);
+                reloadProg -= Time.deltaTime;
+                if (reloadProg <= 0) {
+                    isReloading = false;
+                    ammo = ammoMax;
+                    ammoText.text = ammo + "/" + ammoMax;
+                }
             }
         }
     }
@@ -93,7 +95,20 @@ public class PlayerFire : MonoBehaviour
             pos[1] = hitInfo.point;
 
             EnemyHealth eh = hitInfo.transform.GetComponent<EnemyHealth>();
-            if(eh != null){
+            BossAI BAI = hitInfo.transform.GetComponent<BossAI>();
+            if (BAI != null && eh != null) {
+                float dist = (Vector3.Distance(transform.position, BAI.transform.position));
+                if (dist < 5f) {
+                    eh.takeDamage(10);
+                } else if (dist < 12.5f) {
+                    eh.takeDamage(5);
+                } else if (dist < 20f) {
+                    eh.takeDamage(3);
+                } else {
+                    eh.takeDamage(1);
+                }
+
+            } else if (eh != null){
                 eh.takeDamage(1);
             }
 

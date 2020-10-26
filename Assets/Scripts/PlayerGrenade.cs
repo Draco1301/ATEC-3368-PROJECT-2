@@ -15,18 +15,19 @@ public class PlayerGrenade : MonoBehaviour
         ammoCount = maxAmmo;
     }
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Mouse1) && ammoCount > 0) {
-            Rigidbody rb = Instantiate(grenade, transform.position + new Vector3(0,0.3f,0) + transform.forward, Random.rotation).GetComponent<Rigidbody>();
-            if (Camera.main.transform.localRotation.x > 0) {
-                rb.AddForce(transform.forward * 20, ForceMode.Impulse);
-            } else { 
-                rb.AddForce(Camera.main.transform.rotation * Vector3.forward * 20, ForceMode.Impulse);
-            }
-            ammoCount--;
-            images[ammoCount].SetActive(false);
-            
+    void Update() {
+        if (!TimeManager.getPITS()) {
+            if (Input.GetKeyDown(KeyCode.Mouse1) && ammoCount > 0) {
+                Rigidbody rb = Instantiate(grenade, transform.position + new Vector3(0, 0.3f, 0) + transform.forward, Random.rotation).GetComponent<Rigidbody>();
+                if (Camera.main.transform.localRotation.x > 0) {
+                    rb.AddForce(transform.forward * 20, ForceMode.Impulse);
+                } else {
+                    rb.AddForce(Camera.main.transform.rotation * Vector3.forward * 20, ForceMode.Impulse);
+                }
+                ammoCount--;
+                images[ammoCount].SetActive(false);
+
+            } 
         }
         if (ammoCount < maxAmmo) {
             refillTimer -= Time.deltaTime;
@@ -36,6 +37,7 @@ public class PlayerGrenade : MonoBehaviour
                 ammoCount++;
             }
         }
+
     }
 
     private void OnDrawGizmos() {

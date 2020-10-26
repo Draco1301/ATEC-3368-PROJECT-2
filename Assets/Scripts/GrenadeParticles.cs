@@ -16,7 +16,7 @@ public class GrenadeParticles : MonoBehaviour
     }
 
     private void Update() {
-        if (!PlayerTimeStop.TimeStoped) {
+        if (!TimeManager.TimeStoped) {
             timer -= Time.deltaTime;
             if (timer <= 0) {
                 Destroy(this.gameObject);

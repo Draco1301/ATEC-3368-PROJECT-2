@@ -774,7 +774,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'High Score:'
+  m_Text: ' Best Time:'
 --- !u!222 &520129530
 CanvasRenderer:
   m_ObjectHideFlags: 0

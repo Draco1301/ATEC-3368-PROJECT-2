@@ -12,8 +12,8 @@ public class MainMenuController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        int highScore = PlayerPrefs.GetInt("HighScore");
-        _highScoreTextView.text = highScore.ToString();
+        float bestTime = PlayerPrefs.GetFloat("BestTime");
+        _highScoreTextView.text = $"{ Mathf.Floor(bestTime / 60)}:" + (bestTime % 60).ToString("00.00");
 
         if (_startingSong != null) {
             AudioManager.Instance.PlaySong(_startingSong);
@@ -21,8 +21,8 @@ public class MainMenuController : MonoBehaviour
     }
 
     public void ResetScore() {
-        PlayerPrefs.SetInt("HighScore",0);
-        _highScoreTextView.text = 0.ToString();
+        PlayerPrefs.SetFloat("BestTime", 3600);
+        _highScoreTextView.text = $"{ Mathf.Floor(3600 / 60)}:" + (3600 % 60).ToString("00.00");
     }
 
     public void QuitGame() {

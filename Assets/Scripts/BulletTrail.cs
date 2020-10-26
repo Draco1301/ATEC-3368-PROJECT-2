@@ -17,7 +17,7 @@ public class BulletTrail : MonoBehaviour
 
     private void Update() {
         lr.SetPosition(0, new Vector3(Mathf.Lerp(pos[0].x, pos[1].x, time), Mathf.Lerp(pos[0].y, pos[1].y, time), Mathf.Lerp(pos[0].z, pos[1].z, time)));
-        if (!PlayerTimeStop.TimeStoped) {
+        if (!TimeManager.TimeStoped) {
             time += Time.deltaTime *10;
             if (time >= 1) {
                 Destroy(this.gameObject);
