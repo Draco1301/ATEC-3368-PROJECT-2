@@ -204,7 +204,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1714115006}
         m_MethodName: ExitLevel
         m_Mode: 1
         m_Arguments:
@@ -455,8 +455,8 @@ GameObject:
   - component: {fileID: 57786379}
   - component: {fileID: 57786378}
   - component: {fileID: 57786377}
-  - component: {fileID: 57786376}
   - component: {fileID: 57786375}
+  - component: {fileID: 57786376}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -494,11 +494,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 57786374}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9538b4a25353c52418f28aec84894e5c, type: 3}
+  m_Script: {fileID: 11500000, guid: 8dff09cf21e03d548a0a0025b6dc348a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   timeLimit: 10
-  rechargeTime: 15
+  rechargeTime: 3
   ClockMesh: {fileID: 1631683832}
   greenText:
   - {fileID: 2800000, guid: cbbb33b7ad86247439f8877bd1ccc554, type: 3}
@@ -514,6 +514,7 @@ MonoBehaviour:
   playSymbol:
   - {fileID: 2800000, guid: 3dc6f8161460f99488bcfe23b248022d, type: 3}
   - {fileID: 2800000, guid: 0be92457b39c0c541a42cf05defcd77d, type: 3}
+  timeStopBG: {r: 0.3019608, g: 0.19607843, b: 0.23529412, a: 1}
 --- !u!114 &57786377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2762,7 +2763,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh44566
+  m_Name: pb_Mesh93374
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3827,7 +3828,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 763185589}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &244001719
 MonoBehaviour:
@@ -4924,7 +4925,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &473461398
 Transform:
@@ -14333,6 +14334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 286b956aad9489a4da71540406042b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bullet: {fileID: 0}
   awareRadius: 16
   limitRadius: 50
   moveSpeed: 0
@@ -14357,6 +14359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 2
+  healthBar: {fileID: 0}
 --- !u!143 &711941645
 CharacterController:
   m_ObjectHideFlags: 0
@@ -14593,12 +14596,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 1492115838}
   - {fileID: 2034366989}
   - {fileID: 1161292711}
   - {fileID: 1208417881}
   - {fileID: 1001016321}
   - {fileID: 244001718}
-  - {fileID: 1492115838}
   - {fileID: 547135677}
   - {fileID: 1380412784}
   - {fileID: 955308728}
@@ -15273,6 +15276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 286b956aad9489a4da71540406042b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bullet: {fileID: 0}
   awareRadius: 16
   limitRadius: 50
   moveSpeed: 0
@@ -15297,6 +15301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 2
+  healthBar: {fileID: 0}
 --- !u!143 &919174990
 CharacterController:
   m_ObjectHideFlags: 0
@@ -15799,7 +15804,7 @@ RectTransform:
   - {fileID: 1701085218}
   - {fileID: 2551312}
   m_Father: {fileID: 763185589}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -16371,7 +16376,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 763185589}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -18524,7 +18529,7 @@ RectTransform:
   - {fileID: 1619265965}
   - {fileID: 1010417096}
   m_Father: {fileID: 763185589}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -18834,6 +18839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 286b956aad9489a4da71540406042b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bullet: {fileID: 0}
   awareRadius: 16
   limitRadius: 50
   moveSpeed: 0
@@ -18858,6 +18864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 2
+  healthBar: {fileID: 0}
 --- !u!143 &1302114318
 CharacterController:
   m_ObjectHideFlags: 0
@@ -19092,6 +19099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 286b956aad9489a4da71540406042b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bullet: {fileID: 0}
   awareRadius: 16
   limitRadius: 50
   moveSpeed: 0
@@ -19116,6 +19124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 2
+  healthBar: {fileID: 0}
 --- !u!143 &1341745171
 CharacterController:
   m_ObjectHideFlags: 0
@@ -20719,7 +20728,7 @@ RectTransform:
   m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 763185589}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -20836,6 +20845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 286b956aad9489a4da71540406042b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bullet: {fileID: 0}
   awareRadius: 16
   limitRadius: 50
   moveSpeed: 0
@@ -20860,6 +20870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 2
+  healthBar: {fileID: 0}
 --- !u!143 &1514433937
 CharacterController:
   m_ObjectHideFlags: 0
@@ -25472,7 +25483,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-34550
+  m_Name: pb_Mesh92798
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -27712,7 +27723,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1714115006}
         m_MethodName: RestartLevel
         m_Mode: 1
         m_Arguments:
@@ -32097,6 +32108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 286b956aad9489a4da71540406042b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bullet: {fileID: 0}
   awareRadius: 16
   limitRadius: 50
   moveSpeed: 0
@@ -32121,6 +32133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 2
+  healthBar: {fileID: 0}
 --- !u!143 &1924684302
 CharacterController:
   m_ObjectHideFlags: 0
@@ -37366,7 +37379,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 763185589}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -38698,6 +38711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 286b956aad9489a4da71540406042b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bullet: {fileID: 0}
   awareRadius: 16
   limitRadius: 50
   moveSpeed: 0
@@ -38722,6 +38736,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 2
+  healthBar: {fileID: 0}
 --- !u!4 &3006000453734832484
 Transform:
   m_ObjectHideFlags: 0

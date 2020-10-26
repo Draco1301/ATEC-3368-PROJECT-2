@@ -34,10 +34,20 @@ public class E_HeavenShot : MonoBehaviour, IEnemyAttack
     }
 
     public IEnumerator target(EnemyBullet eb) {
-        eb.Speed /= 10; 
+        if (eb != null) {
+            eb.Speed /= 10;
+        }
+
         yield return new WaitForSeconds(2f);
-        eb.transform.LookAt(PlayerMovement.instance.transform);
-        eb.Speed *= 10;
+        
+        if (eb != null) {
+            eb.transform.LookAt(PlayerMovement.instance.transform);
+            eb.Speed *= 10; 
+        }
+    }
+
+    public void setBullet(GameObject g) {
+        bullet = g;
     }
 
 }

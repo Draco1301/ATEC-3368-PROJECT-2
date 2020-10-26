@@ -16,6 +16,10 @@ public class EnemyHealth : MonoBehaviour
     public void takeDamage(int i) {
         health -= i;
 
+        if (health > maxHealth) {
+            health = maxHealth;
+        }
+
         if (healthBar != null) {
             healthBar.fillAmount = (float)health / (float)maxHealth;
         }
@@ -33,5 +37,9 @@ public class EnemyHealth : MonoBehaviour
 
     public int getHealth() {
         return health;
+    }
+
+    public float getPercent() { 
+        return (float)health / (float)maxHealth;
     }
 }

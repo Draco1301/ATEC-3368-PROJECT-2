@@ -17,7 +17,7 @@ public class Grenade : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!TimeManager.TimeStoped) {
+        if (!TimeManager.TimeStoped && !TimeManager.getPITS()) {
             timer -= Time.deltaTime;
         }
         if (timer<0) {
@@ -36,12 +36,17 @@ public class Grenade : MonoBehaviour
 
             EnemyHealth eh = c.GetComponent<EnemyHealth>();
             if (eh != null) {
-                eh.takeDamage(10);
+                eh.takeDamage(50);
             }
             
             Rigidbody rb = c.GetComponent<Rigidbody>();
             if (rb != null) {
                 rb.AddExplosionForce(40,transform.position, radius, 5, ForceMode.Impulse);
+            }
+
+            EnemyBullet eb = c.GetComponent<EnemyBullet>();
+            if (eb != null) {
+                Destroy(eb.gameObject);
             }
         }
 
@@ -52,5 +57,11 @@ public class Grenade : MonoBehaviour
     private void OnDrawGizmosSelected() {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position,radius);
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        if (collision.transform.GetComponent<EnemyBullet>() != null && !TimeManager.TimeStoped && !TimeManager.getPITS()) {
+            Explode();
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class B_Enemies : MonoBehaviour, IBossAttack
 {
@@ -9,44 +10,66 @@ public class B_Enemies : MonoBehaviour, IBossAttack
     private bool isAttack = false;
     Coroutine attack;
 
-    EnemyAI enemy;
+    [SerializeField] EnemyAI enemy;
     EnemyAI[] enemies = new EnemyAI[12];
     EnemyHealth eh;
+
+    float time = 0;
+
+    Text text;
 
     public void Attack() {
         isAttack = true;
 
         eh = transform.GetComponent<EnemyHealth>();
-
-        EnemyAI e;
+        text.text = "I need a break";
         for (int i = 0; i < 2; i++) {
             for (int n = 0; n < 2; n++) {
-                e = Instantiate(enemy, new Vector3(10f + 30f * n, 6.75f, -10f + 5 - 30 * i), Quaternion.Euler(0, 0, 0));
-                e = enemies[0 + 3 * n + 6 * i];
-                e.transform.gameObject.AddComponent<E_BasicAttack>();
+                enemies[0 + 3 * n + 6 * i] = Instantiate(enemy, new Vector3(10f + 30f * n, 6.75f, -10f + 5 - 30 * i), Quaternion.Euler(0, 0, 0));
+                enemies[0 + 3 * n + 6 * i].transform.gameObject.AddComponent<E_BasicAttack>();
+                enemies[0 + 3 * n + 6 * i].transform.gameObject.GetComponent<IEnemyAttack>().setBullet(bullet.gameObject);
 
-                e = Instantiate(enemy, new Vector3(10f - 4.33f + 30f * n, 6.75f - 4.33f, -10f - 4.33f - 30 * i), Quaternion.Euler(0, 0, 0));
-                e = enemies[1 + 3 * n + 6 * i];
-                e.transform.gameObject.AddComponent<E_HeavenShot>();
+                enemies[1 + 3 * n + 6 * i] = Instantiate(enemy, new Vector3(10f - 4.33f + 30f * n, 6.75f, -10f - 4.33f - 30 * i), Quaternion.Euler(0, 0, 0));
+                enemies[1 + 3 * n + 6 * i].transform.gameObject.AddComponent<E_HeavenShot>();
+                enemies[0 + 3 * n + 6 * i].transform.gameObject.GetComponent<IEnemyAttack>().setBullet(bullet.gameObject);
 
-                e = Instantiate(enemy, new Vector3(10f + 4.33f + 30f * n, 6.75f, -10f - 4.33f - 30 * i), Quaternion.Euler(0, 0, 0));
-                e = enemies[2 + 3 * n + 6 * i];
-                e.transform.gameObject.AddComponent<E_ShotgunFire>();
+                enemies[2 + 3 * n + 6 * i] = Instantiate(enemy, new Vector3(10f + 4.33f + 30f * n, 6.75f, -10f - 4.33f - 30 * i), Quaternion.Euler(0, 0, 0));
+                enemies[2 + 3 * n + 6 * i].transform.gameObject.AddComponent<E_ShotgunFire>();
+                enemies[0 + 3 * n + 6 * i].transform.gameObject.GetComponent<IEnemyAttack>().setBullet(bullet.gameObject);
             }
         }
     }
 
     private void Update() {
         if (isAttack) {
-            //Heal Boss
-            //eh.takeDamage(-1);
+            transform.GetComponent<CharacterController>().enabled = false;
+            transform.position = new Vector3(-10,3,0);
+            if (time < 0) {
+                time = 1;
+                eh.takeDamage(-3);
+            }
+            if (!TimeManager.TimeStoped) {
+                time -= Time.deltaTime;
+            }
+
             foreach (EnemyAI e in enemies) {
                 if (e != null) {
                     return;
                 }
             }
-            isFin = true;
+
+            transform.position = new Vector3(25, 11.75f, -25);
+            transform.GetComponent<CharacterController>().enabled = true;
+            StartCoroutine( finish());
         }
+    }
+
+
+    public IEnumerator finish() {
+        text.text = "Alright I'm back";
+        yield return new WaitForSeconds(5f);
+        text.text = "";
+        isFin = true;
     }
 
     public bool isAttacking() {
@@ -62,15 +85,19 @@ public class B_Enemies : MonoBehaviour, IBossAttack
         bullet = eb;
     }
 
-    public void setEnemy(EnemyAI eb) {
-        enemy = eb;
-    }
-
     public void destoryThis() {
         Destroy(this);
     }
 
     public void stopAttack() {
-        StopCoroutine(attack);
+
+    }
+
+    public void setOther(GameObject g) {
+        enemy = g.GetComponent<EnemyAI>();
+    }
+
+    public void setBossText(Text text) {
+        this.text = text;
     }
 }

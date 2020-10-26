@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f77e3c90631330641a0b7db33efc1619, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
+  health: 2
   healthBar: {fileID: 0}
 --- !u!114 &3006000452390196327
 MonoBehaviour:
@@ -81,9 +81,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 286b956aad9489a4da71540406042b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  awareRadius: 30
+  bullet: {fileID: 9006874284360811800, guid: e24441b1946e10c449b74a1816a1698f, type: 3}
+  awareRadius: 10
   limitRadius: 3
-  moveSpeed: 5
+  moveSpeed: 0
   timeBetweenAttacks: 2
   groundCheck: {fileID: 3006000452574280510}
   groundDistance: 0.4

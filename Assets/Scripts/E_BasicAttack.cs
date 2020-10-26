@@ -10,4 +10,8 @@ public class E_BasicAttack : MonoBehaviour, IEnemyAttack
         GameObject g = Instantiate(bullet, transform.position + transform.rotation * Vector3.forward * 2, transform.rotation);
         g.transform.LookAt(PlayerMovement.instance.transform);
     }
+
+    public void setBullet(GameObject g) {
+        bullet = g;
+    }
 }

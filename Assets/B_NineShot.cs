@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class B_NineShot : MonoBehaviour, IBossAttack
 {
@@ -8,6 +9,7 @@ public class B_NineShot : MonoBehaviour, IBossAttack
     private bool isAttack = false;
     private bool isFin = false;
     Coroutine attack;
+    Text text;
 
     public void Attack() {
         isAttack = true;
@@ -69,5 +71,13 @@ public class B_NineShot : MonoBehaviour, IBossAttack
 
     public void stopAttack() {
         StopCoroutine(attack);
+    }
+
+    public void setOther(GameObject g) {
+        throw new System.NotImplementedException();
+    }
+
+    public void setBossText(Text text) {
+        this.text = text;
     }
 }

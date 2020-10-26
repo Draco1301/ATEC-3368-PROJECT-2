@@ -33,4 +33,11 @@ public class EnemyBullet : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
+    private void OnTriggerEnter(Collider other) {
+        PlayerHealth ph = other.gameObject.GetComponent<PlayerHealth>();
+        if (ph != null) {
+            ph.changeHealth(-1);
+        }
+    }
 }

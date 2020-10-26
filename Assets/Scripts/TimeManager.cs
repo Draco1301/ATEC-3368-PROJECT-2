@@ -13,9 +13,11 @@ public class TimeManager : MonoBehaviour
     [SerializeField] Renderer ClockMesh;
     [SerializeField] Texture2D[] greenText;
     [SerializeField] Texture2D[] playSymbol = new Texture2D[2];
-    float charge = 1;
     [SerializeField]  Color timeStopBG;
+    float charge = 1;
     Color storeBG;
+    bool bossTimeStopOnce = false;
+
     private void Awake() {
         storeBG = Camera.main.backgroundColor;
     }
@@ -59,6 +61,21 @@ public class TimeManager : MonoBehaviour
                 ClockMesh.material.mainTexture = playSymbol[1];
             } else {
                 ClockMesh.material.mainTexture = playSymbol[0];
+            }
+        }
+
+
+        if (PlayerIsTimeStopped && !bossTimeStopOnce) {
+            bossTimeStopOnce = true;
+            TimeAffected[] objects = FindObjectsOfType<TimeAffected>();
+            foreach (TimeAffected t in objects) {
+                t.stop();
+            }
+        } else if (!PlayerIsTimeStopped && bossTimeStopOnce) {
+            bossTimeStopOnce = false;
+            TimeAffected[] objects = FindObjectsOfType<TimeAffected>();
+            foreach (TimeAffected t in objects) {
+                t.resume();
             }
         }
 

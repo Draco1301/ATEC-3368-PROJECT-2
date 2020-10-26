@@ -1,21 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossAI : MonoBehaviour
 {
+    //components
     PlayerMovement pm;
     EnemyHealth health;
-    [SerializeField] EnemyBullet enemyBullet;
     [SerializeField] EnemyAI enemyAI;
+    [SerializeField] EnemyBullet enemyBullet;
+    [SerializeField] GameObject killWall;
+    [SerializeField] Text text;
 
 
     //attack
     [SerializeField] public float moveSpeed;
     IBossAttack BossAttack;
-    [SerializeField] float timeBetweenAttacks;
-    private float timeSinceAttack;
     private int attackNum;
+    private bool checkPoint_1 = false;
+    private bool checkPoint_2 = false;
+    private bool regen_1 = false;
+    private bool regen_2 = false;
 
     //Move
     CharacterController cc;
@@ -32,6 +38,7 @@ public class BossAI : MonoBehaviour
         cc = GetComponent<CharacterController>();
         health = GetComponent<EnemyHealth>();
         BossAttack = GetComponent<IBossAttack>();
+        BossAttack.setBossText(text);
     }
 
 
@@ -41,40 +48,54 @@ public class BossAI : MonoBehaviour
             return;
         }
 
+        if (health.getPercent() <= .66 ) {
+            checkPoint_1 = true;
+        }
+        if (health.getPercent() <= .33) {
+            checkPoint_1 = true;
+        }
+
         if (!TimeManager.TimeStoped) {
             Move();
-        }
 
-        if (BossAttack != null && !BossAttack.isAttacking() && !BossAttack.isFinished()) {
-            BossAttack.Attack();
-        }
-        if (BossAttack != null && BossAttack.isFinished()) {
-            BossAttack.destoryThis();
-            attackNum = BossAttackRandomizer(attackNum);
-            switch (attackNum) {
-                case 1:
-                    BossAttack = gameObject.AddComponent<B_NineShot>();
-                    break;
-                case 2:
-                    BossAttack = gameObject.AddComponent<B_SpinWall>();
-                    break;
-                case 3:
-                    BossAttack = gameObject.AddComponent<B_Spiral>();
-                    break;
-                case 4:
-                    BossAttack = gameObject.AddComponent<B_TimeStop>();
-                    break;
-                case 5:
-                    BossAttack = gameObject.AddComponent<B_Wall>();
-                    break;
-                default:
-                    BossAttack = gameObject.AddComponent<B_NineShot>();
-                    break;
+
+            if (BossAttack != null && !BossAttack.isAttacking() && !BossAttack.isFinished()) {
+                BossAttack.Attack();
             }
-            BossAttack.setBullet(enemyBullet);
-        }
+            if (BossAttack != null && BossAttack.isFinished()) {
+                BossAttack.destoryThis();
+                attackNum = BossAttackRandomizer(attackNum);
+                switch (attackNum) {
+                    case 0:
+                        BossAttack = gameObject.AddComponent<B_Enemies>();
+                        BossAttack.setOther(enemyAI.gameObject);
+                        break;
+                    case 1:
+                        BossAttack = gameObject.AddComponent<B_NineShot>();
+                        break;
+                    case 2:
+                        BossAttack = gameObject.AddComponent<B_SpinWall>();
+                        BossAttack.setOther(killWall);
+                        break;
+                    case 3:
+                        BossAttack = gameObject.AddComponent<B_Spiral>();
+                        break;
+                    case 4:
+                        BossAttack = gameObject.AddComponent<B_TimeStop>();
+                        break;
+                    case 5:
+                        BossAttack = gameObject.AddComponent<B_Wall>();
+                        break;
+                    default:
+                        BossAttack = gameObject.AddComponent<B_NineShot>();
+                        break;
+                }
+                BossAttack.setBullet(enemyBullet);
+                BossAttack.setBossText(text);
+            }
 
-        ApplyGravity();
+            ApplyGravity();
+        }
     }
 
     private void ApplyGravity() {
@@ -101,9 +122,18 @@ public class BossAI : MonoBehaviour
     }
 
     private int BossAttackRandomizer(int x) {
+        if (checkPoint_1 &&  !regen_1) {
+            regen_1 = true;
+            return 0;
+        }
+        if (checkPoint_2 && !regen_2) {
+            regen_2 = true;
+            return 0;
+        }
+
         int r;
         do { 
-            r = Random.Range(1, 5);
+            r = Random.Range(1, 6);
         } while (r == x);
 
         return r;

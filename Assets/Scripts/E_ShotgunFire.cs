@@ -19,4 +19,8 @@ public class E_ShotgunFire : MonoBehaviour, IEnemyAttack
         g.transform.LookAt(PlayerMovement.instance.transform);
         g.transform.localRotation = g.transform.localRotation * Quaternion.Euler(0, -45, 0);
     }
+
+    public void setBullet(GameObject g) {
+        bullet = g;
+    }
 }

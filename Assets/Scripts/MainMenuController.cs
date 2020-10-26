@@ -13,6 +13,11 @@ public class MainMenuController : MonoBehaviour
     void Start()
     {
         float bestTime = PlayerPrefs.GetFloat("BestTime");
+        if (bestTime < 10) {
+            ResetScore();
+        }
+
+
         _highScoreTextView.text = $"{ Mathf.Floor(bestTime / 60)}:" + (bestTime % 60).ToString("00.00");
 
         if (_startingSong != null) {

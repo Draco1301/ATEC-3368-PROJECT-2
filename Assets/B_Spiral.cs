@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class B_Spiral : MonoBehaviour, IBossAttack
 {
@@ -9,6 +10,7 @@ public class B_Spiral : MonoBehaviour, IBossAttack
     private bool isAttack = false;
     private bool isFin = false;
     Coroutine attack;
+    Text text;
 
     public void Attack() {
         isAttack = true;
@@ -54,6 +56,7 @@ public class B_Spiral : MonoBehaviour, IBossAttack
 
             yield return new WaitForSeconds(0.1f);
         }
+        isFin = true;
     }
 
     public bool isAttacking() {
@@ -74,5 +77,12 @@ public class B_Spiral : MonoBehaviour, IBossAttack
 
     public void stopAttack() {
         StopCoroutine(attack);
+    }
+
+    public void setOther(GameObject g) {
+        throw new NotImplementedException();
+    }
+    public void setBossText(Text text) {
+        this.text = text;
     }
 }

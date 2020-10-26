@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class B_TimeStop : MonoBehaviour, IBossAttack {
     [SerializeField] EnemyBullet bullet;
     private bool isAttack = false;
     private bool isFin = false;
     Coroutine attack;
+    Text text;
 
     public void Attack() {
         isAttack = true;
@@ -14,16 +16,19 @@ public class B_TimeStop : MonoBehaviour, IBossAttack {
     }
     private IEnumerator Spawnbullets() {
         EnemyBullet eb;
-        EnemyBullet[] ebs = new EnemyBullet[50];
+        EnemyBullet[] ebs = new EnemyBullet[75];
         float yRot;
         Vector3 pos;
         
         transform.GetComponent<BossAI>().enabled = false;
 
-        TimeManager.setPITS(true);
-        
+        text.text = "TIME WILL OBEY MY WILL!";
 
-        for (int i = 0; i < 50 ;i++) {
+        yield return new WaitForSeconds(2f);
+        TimeManager.setPITS(true);
+
+
+        for (int i = 0; i < 75 ;i++) {
             yRot = Random.Range(0,360);
             pos = new Vector3(Random.Range(2, 48), Random.Range(6, 10), Random.Range(-48, -2));
             
@@ -40,7 +45,9 @@ public class B_TimeStop : MonoBehaviour, IBossAttack {
         }
         transform.position = new Vector3(25f, 11.75f, -25f);
 
+        text.text = "time will now continue";
         yield return new WaitForSeconds(1.1f);
+        text.text = "";
 
         foreach (EnemyBullet e in ebs) {
             e.Speed = 20;
@@ -71,5 +78,12 @@ public class B_TimeStop : MonoBehaviour, IBossAttack {
     }
     public void stopAttack() {
         StopCoroutine(attack);
+    }
+
+    public void setOther(GameObject g) {
+        throw new System.NotImplementedException();
+    }
+    public void setBossText(Text text) {
+        this.text = text;
     }
 }

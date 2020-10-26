@@ -9,6 +9,7 @@ public class EnemyAI : MonoBehaviour
     EnemyHealth health;
 
     //attack
+    [SerializeField] GameObject bullet;
     [SerializeField] float awareRadius;
     [SerializeField] float limitRadius;
     [SerializeField] float moveSpeed;
@@ -31,17 +32,19 @@ public class EnemyAI : MonoBehaviour
         cc = GetComponent<CharacterController>();
         health = GetComponent<EnemyHealth>();
         EnemyAttack = GetComponent<IEnemyAttack>();
+        EnemyAttack.setBullet(bullet);
     }
 
 
     void Update() {
+        if (!TimeManager.TimeStoped) {
+            if (awareRadius >= Mathf.Sqrt(Mathf.Pow(pm.gameObject.transform.position.x - transform.position.x, 2) + Mathf.Pow(pm.gameObject.transform.position.z - transform.position.z, 2))) {
+                Attack();
+            }
+            timeSinceAttack += Time.deltaTime;
 
-        if (awareRadius >= Mathf.Sqrt(Mathf.Pow(pm.gameObject.transform.position.x - transform.position.x, 2) + Mathf.Pow(pm.gameObject.transform.position.z - transform.position.z, 2))) {
-            Attack();
+            ApplyGravity();
         }
-        timeSinceAttack += Time.deltaTime;
-
-        ApplyGravity();
     }
 
     private void ApplyGravity() {

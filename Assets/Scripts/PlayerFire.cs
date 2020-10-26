@@ -32,6 +32,10 @@ public class PlayerFire : MonoBehaviour
     private bool isReloading;
     private float reloadProg;
 
+    private void Start() {
+        ammo = ammoMax;
+    }
+
     // Update is called once per frame
     void Update()
     {
